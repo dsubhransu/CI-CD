@@ -1,5 +1,11 @@
-FROM tomcat
-RUN ["rm", "-rf", "/usr/local/tomcat/webapps/ROOT"]
-ADD target/greenhouse-1.0.0.BUILD-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+FROM ubuntu:latest
 
-CMD ["catalina.sh", "run"]
+MAINTAINER subhransu
+
+RUN yum -y install apache2
+
+COPY index.html /var/www/html/
+
+CMD [“/usr/sbin/httpd”, “-D”, “FOREGROUND”]
+
+EXPOSE 80
