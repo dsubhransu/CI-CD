@@ -1,0 +1,502 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<html class="dj_gecko dj_contentbox"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/><meta content="IE=8" http-equiv="X-UA-Compatible"/><input value="/deliverit/security/resetpasswordform" id="reset_password_url" type="hidden"/><input value="/deliverit/" id="root" type="hidden"/><input value="Alert Dialog" id="alert_dialog_title" name="alert_dialog_title" type="hidden"/><input value="Confirm Dialog" id="confirm_dialog_title" name="confirm_dialog_title" type="hidden"/><input value="OK" id="ok_button_title" name="ok_button_title" type="hidden"/><input value="Cancel" id="cancel_button_title" name="cancel_button_title" type="hidden"/><input value="Remove" id="remove_button_title" name="remove_button_title" type="hidden"/><input value="&lt;p&gt;This application is optimized for Chrome/Safari&lt;/p&gt;&lt;br/&gt;&lt;a href=&#39;https://www.google.com/chrome&#39; target=&#39;_blank&#39;&gt;click here&lt;/a&gt; to download Chrome." id="browser_alert" name="browser_alert" type="hidden"/><input value="Reset Password" id="password_reset_header" type="hidden"/><input value="Username is required" id="alert_username_required" type="hidden"/><input value="1" name="answerAttempt" id="answerAttempt" type="hidden"/><link rel="stylesheet" type="text/css" media="screen" href="/deliverit/resources/styles/refresh.css?ver=450fats20210329T171951Z"></link><link href="/deliverit/resources/dijit/themes/tundra/tundra.css?ver=450fats20210329T171951Z" type="text/css" rel="stylesheet"></link><link href="/deliverit/resources/styles/jquery-ui-1.8.23.custom.css?ver=450fats20210329T171951Z" type="text/css" rel="stylesheet"></link><link href="/deliverit/resources/styles/jquery-ui-layout.css?ver=450fats20210329T171951Z" type="text/css" rel="stylesheet"></link><link href="/deliverit/resources/bootstrap_3.3.6/css/bootstrap.min.css?ver=450fats20210329T171951Z" type="text/css" rel="stylesheet"/><link href="" type="text/css" rel="stylesheet/less"/><link href="/deliverit/resources/inspinia/font-awesome/css/font-awesome.css?ver=450fats20210329T171951Z" type="text/css" rel="stylesheet"/><script type="text/javascript" language="JavaScript">
+	dojo.require("dojo.parser");
+</script><script type="text/javascript">
+	var djConfig = {
+		parseOnLoad : false,
+		isDebug : false,
+		locale : ''
+	};
+</script><script type="text/javascript" src="/deliverit/resources/dojo/dojo.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/spring/Spring.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/spring/Spring-Dojo.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/jquery-1.8.0.min.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/jquery-ui-1.8.23.custom.min.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/fingerprint2.min.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/jquery-layout.1.3.min.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/jquery.layout.resizePaneAccordions-1.0.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/jquery.bbq.1.2.1.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/mdm/jstz.nuvizz.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/scripts/jquery/mvAlert.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/bootstrap_3.3.6/js/bootstrap.min.js?ver=450fats20210329T171951Z"></script><script type="text/javascript" src="/deliverit/resources/bootstrap_3.2/js/bootstrap-multiselect.js?ver=450fats20210329T171951Z"></script><title>Welcome to DeliverIt</title><script type="text/javascript">
+	function run() {
+		//		var tz = jstz.determine();
+		var tz1 = jstz.determineGMToffset();
+		//	alert(tz1);
+		if (tz1.search("-") == -1) {
+			//		alert("*");
+			tz1 = tz1.replace("GMT", "GMT+");
+
+		}
+		var selectedTimeZone;
+		var result = false;
+		//alert(tz1);
+		$("option[value='" + tz1 + "']").attr("selected", "selected");
+		
+				$('#userCompany').focus();
+			
+
+		$('#proceed').click(function() {
+			$("#error_close_button").trigger('click');
+			$('#proceed').hide();
+			$('#proceed_gif').show();			
+// 			$('#proceed').attr('value',imgSrcStr);
+			if ($.trim($('#userCompany').val()) == '') {
+				$.fn.nuvizzAlert('Company Code is required');
+				$('#userCompany').focus();
+				return false;
+			} else if ($.trim($('#j_username').val()) == '') {
+				$.fn.nuvizzAlert($('#alert_username_required').val());
+				$('#j_username').focus();
+				return false;
+			} else if ($.trim($('#j_password').val()) == '') {
+				$.fn.nuvizzAlert('Password is required');
+				$('#j_password').focus();
+				return false;
+			}
+			selectedTimeZone = $("select[id = 'DropDownTimezone']").val();
+			
+			//alert($('#root').val()+"InstanceInfo/"+$('#userCompany').val());
+			/* Functionality for setting instance cookie has been moved to appregister module.
+			 * "InstanceInfo" rest api has been depricated in deliverit side.
+			 */
+			 /* $.ajax({	
+				method: "GET",
+				url: $('#root').val()+"InstanceInfo/"+$('#userCompany').val(),
+				//url: "/deliverit/InstanceInfo/"+$('#userCompany').val(),
+				async : false,
+				success: function(response){
+					if(response.length > 0){
+						setInstanceInfoCookies(response);
+					}
+				},
+				error: function(){
+					setInstanceInfoCookies("default");  
+				}
+			}); */
+			
+			
+			$.ajax({
+				type : 'POST',
+				url : "nps/timezone",
+				data : {
+					timeZone : selectedTimeZone,
+					_csrf : $('input[name=_csrf]').val()
+				},
+				async : false,
+				dataType : 'text',
+				success : function() {
+					result = true;
+				}
+			});
+
+			//$.post("nps/timezone", {timeZone : selectedTimeZone}); 
+			//return false;
+			setTimeout(function() {
+				return result;
+			}, 750)
+			
+			
+
+		});
+		
+	
+
+		
+		$('#error_close_button').click(function() {
+			document.getElementById('error_alert_wrapper').style.display = 'none';
+		});
+		
+		Spring.addDecoration(new Spring.ValidateAllDecoration(
+				{
+					elementId : 'proceed',
+					event : 'onclick'
+				}));
+
+		//send the user's timezone to the server
+
+		//return false;
+
+	};
+	setTimeout('run();', 750);
+	
+	function setInstanceInfoCookies(response){
+		//document.cookie="Instance=" + response;
+		document.cookie="Instance=" + response +";path=/deliverit/";
+	} 
+	
+</script></head><body><div id="header"><div class="clear" id="align_header_content"><span id="left_header_content"><img src="/deliverit//devdilogo/logo/NUVZATSQA/logo.png" alt=""/></span></div></div><div class="col-md-12" id="footer"><div id="footer_content"><span id="pull_left"><span id="powered_by_label">Powered By</span><span id="deliverit_logo"><a href="http://www.workllama.com/"><img src="/deliverit/resources/images/logo-workllam2.png" alt="DeliverIt" class="allLabels"/></a></span></span><span id="privacy_footer"><span class="copyRight_footer">&#169; 2016 - 2020 WorkLLama LLC </span></span></div></div><div id="bodycontent"></div><div id="reset_password_div"></div><div id="login_div"><div id="login_title">Admin Login
+		<div id="login_border"/></div><div id="login_form"><form id="command" name="f" action="/deliverit/j_spring_security_check" method="POST"><input name="deviceFingerPrint" id="deviceFingerPrint" type="hidden"/><div id="login_company" class="form-group"><input value="" placeholder="Company code" class="form-control" name="userCompany" type="text" id="userCompany"/><span class="form-control-feedback input_icons"><img src=" /deliverit/resources/images/briefcase-blue-24-mdpi.png " alt=""/></span></div><div id="login_username" class="form-group"><input placeholder="Username" class="form-control" name="j_username" type="text" id="j_username"/><span class="form-control-feedback input_icons"><img src="/deliverit/resources/images/user-blue-24-mdpi.png" alt=""/></span></div><div id="login_password" class="form-group"><input placeholder="Password" class="form-control" name="j_password" type="password" id="j_password"/><span class="form-control-feedback input_icons"><img src="/deliverit/resources/images/lock-blue-24-mdpi.png" alt=""/></span></div><div id="reset_password_link"><a href="#" name="reset_link" id="reset_link">Forgot your password?</a></div><div id="login_button"><button class="btn btn-primary login_button_submit" type="submit" id="proceed">Login</button><button class="btn btn-primary login_button_submit" type="submit" id="proceed_gif"><img src="/deliverit/resources/images/spinner-28.gif" alt=""/></button></div><div>
+<input type="hidden" name="_csrf" value="95188967-02fd-497d-ba42-2bcabe87638b" />
+</div></form><div id="register_link_div"><span id="register_link">Not registered?</span><a href="http://www.workllama.com/" id="register_link_anchor">Contact us to learn more.</a></div></div></div></body><style>
+/* modern view */
+#error_alert_wrapper{
+ 	position: absolute;
+    height: 80px;
+    width: 420px;
+    top: 50.14%;
+    left: 50%;
+    margin-top: -211px;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 3px 10px 0 rgba(0,0,0,0.20);
+    border-radius: 3px;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 100;
+   
+
+}
+#error_close_button{
+	position: absolute;
+	right:10px;
+    top: 10px;
+     font-size: 14px;
+    Color: #555555;
+    cursor: pointer;
+}
+
+#error_div{
+    position: absolute;
+    margin-top: 0px;
+    width: 424px;
+    height: 129px;
+    background: #FCD9D8;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.20);
+    z-index:100;
+    margin-left: -4px;
+}
+
+#error_content{
+	position: absolute;
+    left: 15px;
+    top: 15px;
+     font-family: 'Roboto', sans-serif;
+	font-size: 18px; 
+	color: #555555;
+	right: 35px;
+   
+}
+#try_again_content{
+position: absolute;
+    top: 75px;
+}
+
+#login_background{
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+}
+#login_background #bgimg {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
+#footer {
+    clear: both;
+    width: 100%;
+    bottom: 0px;
+    position: fixed;
+    background: #222222;
+    height: 73px;
+    z-index:50;
+}
+#header {
+    clear: both;
+    width: 100%;
+    top: 0px;
+    position: fixed;
+    height: 73px;
+    background: #FFFFFF;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.80);
+	z-index:50;
+
+}
+#bodycontent{
+	clear: both;
+    width: 100%;
+    top: 73px;
+    bottom:73px;
+    position: fixed;
+    background-image:url("/deliverit/resources/images/login-background.jpg") ;
+	background-size: cover;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+}
+#footer_content{
+position: relative;
+margin-top: 28.5px;
+}
+#header_content{
+position : relative;
+text-align: center;
+margin-top: 10px;
+
+}
+#align_header_content{
+position : relative;
+margin-top: 10px;
+}
+#left_header_content{
+margin-left: 4%;
+}
+
+.span-error-message{
+ font-family: 'Roboto', sans-serif;
+color: red;
+}
+
+#error-message{
+position: fixed;
+margin-top: 21px;
+margin-left: 20px;
+}
+
+ .copyRight_footer{
+margin-left: 10px;
+ font-family: 'Roboto', sans-serif ;
+font-size: 16px;
+color: #9B9B9B;
+}
+#privacy_footer{
+position: absolute;
+    right: 4%;
+}
+#pull_left{
+margin-left: 4%;
+}
+#powered_by_label{
+margin-left: 4%;
+position: relative;
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+color: #FFFFFF;
+}
+#deliverit_logo{
+margin-left: 10px;
+}
+#login_form{
+	position: absolute;
+    margin-top: 50px;
+    width: 400px;
+    margin-left: 20px;
+ }
+
+#login_title{
+position:relative;
+margin-top: 50px;
+font-family: 'Roboto', sans-serif;
+font-size: 40px;
+color: #1F2B4C;
+letter-spacing: -1px;
+text-align: center;
+
+}
+#login_border { 
+	border-bottom: 5px solid #4D93E4;
+    width: 125px;
+    position: absolute;
+    margin-left: 157.5px;
+    margin-top: 10px;
+ }
+
+#login_div{
+	 position: absolute;
+	 height:500px;
+	 width:440px;
+    top: 50%;
+    left: 50%;
+    background: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	box-shadow: 0 3px 10px 0 rgba(0,0,0,0.20);
+	border-radius: 3px;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#reset_password_div{
+	display : none;
+	position: absolute;
+	height:500px;
+	width:440px;
+	top: 50%;
+	left: 50%;
+	background: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	box-shadow: 0 3px 10px 0 rgba(0,0,0,0.20);
+	border-radius: 3px;
+	transform: translateX(-50%) translateY(-50%);
+
+}
+
+
+
+#userCompany, #j_username, #j_password{
+width: 100%;
+font-family: 'Roboto', sans-serif;
+font-size: 18px;
+color: #555555;
+
+
+}
+#login_username{
+position: relative;
+margin-top: 20px;
+}
+#login_password{
+position: relative;
+margin-top: 20px;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family: 'Roboto', sans-serif;
+font-size: 18px;
+color: #999999;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  font-family: 'Roboto', sans-serif;
+font-size: 18px;
+color: #999999;
+}
+:-ms-input-placeholder { /* IE 10+ */
+ font-family: 'Roboto', sans-serif;
+font-size: 18px;
+color: #999999;
+}
+:-moz-placeholder { /* Firefox 18- */
+  font-family: 'Roboto', sans-serif;
+font-size: 18px;
+color: #999999;
+}
+
+#reset_password_link{
+position: relative;
+    margin-top:5px;
+    text-align: right;
+}
+#reset_link{
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+color: #3498DB;
+text-decoration: none;
+
+
+}
+#login_button{
+position: relative;
+margin-top: 40px;
+}
+.login_button_submit{
+width:100%;
+background: #4D93E4;
+box-shadow: 0 1px 1px 0 rgba(0,0,0,0.15);
+border-radius: 2px;
+font-family: 'Roboto', sans-serif;
+font-size: 20px;
+color: #FFFFFF;
+text-transform: uppercase;
+text-align: center;
+cursor: pointer;
+}
+#register_link_div{
+position: relative;
+margin-top:34px;
+text-align: center;
+}
+#register_link{
+    font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	color: #555555;
+}
+#register_link_anchor{
+text-decoration: none;
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+color: #3498DB;
+margin-left: 4px;
+}
+#proceed_gif{
+display: none;
+}
+.input_icons{
+top:3px;
+}
+
+#header #align_header_content span#left_header_content {
+    float: left;
+}
+#header #align_header_content span, #header img {
+    max-width: 180px;
+    max-height: 60px;
+    width: 100%;
+}
+#header #align_header_content span {
+    display: inline-block;
+    position: relative;
+    right: auto;
+    min-height: 60px;
+}
+#header a {
+    display: inline-block;
+}
+#header #align_header_content img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    display: block;
+}
+
+/* modern view */
+
+	
+</style><script>
+$('#reset_link').click(function(){
+	$("#error_close_button").trigger('click');
+	$("#login_div").hide();
+	$("#reset_password_div").show();
+	$.ajax({
+		  url: $('#reset_password_url').val(),
+		  async: false,
+		  success: function(data){
+			$('#reset_password_div').empty().append(data);
+			return false;
+		  },
+		  error: function(){
+			$.fn.nuvizzAlert('error');
+			return false;
+		  }
+	});
+});
+
+</script><script type="text/javascript">
+$(document).ready(function(){
+	var allcookies = document.cookie;
+	cookiearray = allcookies.split(';');
+	 for(var i=0; i < cookiearray.length; i++){
+         name = cookiearray[i].split('=')[0];
+         value = cookiearray[i].split('=')[1];
+         if(name === 'trustComputerVal' ){
+        	 if(value === 'true') {
+        		 $('#trustComputer').prop('checked' , 'checked');
+        		// console.log(name + ' - trustComputerVal true-   ' +  value);
+        	 } else {
+        		// $('#trustComputer').prop('checked' , 'unchecked');
+        		// console.log(name + ' - trustComputerVal false-   ' +  value);
+        	 }
+         }
+      }
+	$('#trustComputer').on('click', function(){
+		var trustComputerVal = $('#trustComputer').is(':checked') + ";";
+		document.cookie="trustComputerVal=" + trustComputerVal;
+	});
+		
+	if ( $.browser.msie) {
+		   if(window.location.href.indexOf("?", 0) == -1){
+			   $.fn.nuvizzAlert($('#browser_alert').val());
+		   }
+	}
+	var fp = new Fingerprint2();
+    fp.get(function(result) {
+    	$('#deviceFingerPrint').attr('value',result);
+    });
+   
+});
+</script></html>
